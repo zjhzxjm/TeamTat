@@ -10,6 +10,9 @@
           <%= item[:text].capitalize %>
         <% end %>
       <% end %>
+      <% if item[:children].any? %>
+        <%= render partial: "documents/outline", locals: {nodes: item[:children]} %>
+      <% end %>
     </li>
   <% end %>
 </ul>

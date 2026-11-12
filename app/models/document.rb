@@ -1041,7 +1041,7 @@ class Document < ApplicationRecord
 
       result = p.infons["type"].match(/title_(\d+)/)
       if result.present?
-        level = result[1].strip.to_i
+        level = [result[1].to_i, 1].max
         item_text = "title"
       elsif %w(front abstract title).include?(p.infons["type"])
         level = 1
@@ -1059,6 +1059,7 @@ class Document < ApplicationRecord
       item = {id: index, text: item_text, description: desc, children: [], level: level}
       
       last_item = item
+      last_in_levels = last_in_levels.take(level)
       last_in_levels[level] = item
       plevel = level - 1
       while (plevel > 0 && last_in_levels[plevel].nil?) do

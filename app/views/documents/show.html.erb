@@ -5,10 +5,12 @@
   <div class="ui  text loader">Loading</div>
 </div>
 <%= render partial: "doc_info" %>
-<div class="document clearfix <%= 'outline' if @document.outline.size > 2 %>">
+<% outline = @document.outline %>
+<% show_outline = outline.size > 2 || outline.any? { |item| item[:children].any? } %>
+<div class="document clearfix <%= 'outline' if show_outline %>">
   <div class="left-side pane">
     <h4>Outline</h4>
-    <%= render partial: "outline", locals: {nodes: @document.outline} %>
+    <%= render partial: "documents/outline", locals: {nodes: outline} %>
   </div>
   <div class="main pane" id="main-document" data-url="<%=partial_document_path(@document) %>">
     <%= render partial: "document_main" %>
